@@ -1,0 +1,280 @@
+/* 全局样式：统一字体、清除默认边距，符合极简设计 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 避免元素尺寸混乱 */
+  font-family: "Arial", "Microsoft YaHei", sans-serif; /* 适配中英文 */
+  color: #333333; /* 正文深灰，符合设计基调 */
+}
+
+body {
+  background-color: #ffffff; /* 纯白背景 */
+  padding: 20px 40px; /* 页面左右留白，避免内容贴边 */
+  max-width: 1200px; /* 限制页面最大宽度，防止大屏幕内容过宽 */
+  margin: 0 auto; /* 页面居中 */
+}
+
+/* 导航按钮样式：首页+关于我 / 作品集 */
+.nav {
+  display: flex;
+  gap: 30px; /* 按钮间距 */
+  justify-content: flex-end; /* 导航靠右 */
+  margin-bottom: 40px;
+}
+
+.nav a {
+  text-decoration: none; /* 去掉链接下划线 */
+  font-size: 16px;
+  padding: 5px 0;
+  position: relative;
+}
+
+/* 导航激活态：文字下方下划线 */
+.nav a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #333333;
+}
+
+/* 身份定位区域：姓名+专业定位 */
+.identity {
+  text-align: center; /* 内容居中 */
+  margin-bottom: 30px;
+}
+
+.identity h1 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.identity p {
+  font-size: 16px;
+  color: #666666; /* 专业定位浅灰，突出姓名 */
+  margin-bottom: 15px;
+}
+
+.identity .line {
+  width: 400px; /* 分隔线宽度，与设计一致 */
+  height: 1px;
+  background-color: #F5F5F5; /* 浅灰分隔线 */
+  margin: 0 auto;
+}
+
+/* 首页中段：个人简介+作品引导 分栏 */
+.middle {
+  display: flex;
+  gap: 30px; /* 左右栏间距 */
+  margin: 40px 0;
+  align-items: center; /* 上下居中对齐 */
+}
+
+/* 个人简介文字区 */
+.intro {
+  flex: 1; /* 占1份宽度 */
+  line-height: 1.6; /* 行高，方便阅读 */
+  font-size: 14px;
+}
+
+.intro p {
+  margin-bottom: 15px;
+  color: #333333;
+}
+
+/* 作品引导网格：2×2布局 */
+.work-guide {
+  flex: 1; /* 占1份宽度 */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2列等宽 */
+  gap: 20px; /* 网格间距 */
+}
+
+/* 作品引导卡片 */
+.guide-card {
+  position: relative;
+  cursor: pointer; /* 鼠标悬浮变指针，提示可点击 */
+  transition: transform 0.3s ease; /* 上浮动画过渡 */
+}
+
+/* 卡片悬浮上浮效果 */
+.guide-card:hover {
+  transform: translateY(-5px); /* 上浮5px */
+}
+
+/* 作品引导图片（占位图，后续替换成你的图） */
+.guide-card img {
+  width: 100%;
+  height: 180px; /* 固定高度，保持网格整齐 */
+  object-fit: cover; /* 图片填充，不拉伸 */
+  border: 1px solid transparent; /* 默认透明边框 */
+}
+
+/* 卡片悬浮：显示边框 */
+.guide-card:hover img {
+  border-color: #333333;
+}
+
+/* 作品类型文字（如“角色设计”） */
+.guide-card p {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* 悬浮提示文字：“查看作品集” */
+.guide-card .tip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255,255,255,0.9); /* 白色半透明背景 */
+  padding: 5px 10px;
+  font-size: 14px;
+  opacity: 0; /* 默认隐藏 */
+  transition: opacity 0.3s ease;
+}
+
+.guide-card:hover .tip {
+  opacity: 1; /* 悬浮显示 */
+}
+
+/* 联系信息区域 */
+.contact {
+  display: flex;
+  justify-content: space-between; /* 联系信息靠左，导航靠右 */
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #F5F5F5; /* 顶部浅灰分隔线 */
+}
+
+/* 联系信息：图标+文字 */
+.contact-info {
+  display: flex;
+  gap: 20px; /* 邮箱与下载链接间距 */
+  font-size: 14px;
+}
+
+.contact-info a {
+  text-decoration: none;
+  color: #666666;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* 图标与文字间距 */
+}
+
+.contact-info a:hover {
+  color: #333333; /* 悬浮变深灰 */
+}
+
+/* 作品集页面：筛选标签样式 */
+.portfolio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.portfolio-header h2 {
+  font-size: 18px;
+}
+
+/* 筛选标签组 */
+.tags {
+  display: flex;
+  gap: 15px;
+}
+
+.tag {
+  padding: 5px 12px;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* 选中的标签：浅灰背景 */
+.tag.active {
+  background-color: #F5F5F5;
+  border-radius: 2px;
+}
+
+/* 作品集网格：统一尺寸 */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* 自动适应屏幕，最小280px一列 */
+  gap: 20px; /* 网格间距 */
+  margin-bottom: 40px;
+}
+
+/* 作品卡片：封面+标题+简介 */
+.work-card {
+  cursor: pointer;
+}
+
+.work-card img {
+  width: 100%;
+  height: 220px; /* 封面高度，与设计一致 */
+  object-fit: cover;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.work-card:hover img {
+  border-color: #333333;
+}
+
+.work-card h3 {
+  font-size: 16px;
+  text-align: center;
+  margin: 10px 0 5px;
+}
+
+.work-card p {
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* 排序功能区域 */
+.sort {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.sort select {
+  padding: 5px 10px;
+  border: 1px solid #F5F5F5;
+  background-color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* 响应式：移动端（屏幕宽度<768px）调整 */
+@media (max-width: 768px) {
+  body {
+    padding: 15px 20px; /* 减少留白 */
+  }
+
+  /* 首页中段分栏→上下排列 */
+  .middle {
+    flex-direction: column;
+  }
+
+  .identity .line {
+    width: 250px; /* 分隔线缩短 */
+  }
+
+  .contact {
+    flex-direction: column;
+    gap: 15px; /* 上下间距 */
+    text-align: center;
+  }
+
+  .nav {
+    justify-content: center; /* 导航居中 */
+  }
+}
