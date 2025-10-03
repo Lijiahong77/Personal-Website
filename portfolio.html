@@ -6,7 +6,6 @@
   <title>Portfolio</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-  <!-- Import PDF preview plugin (no download required, uses CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.8/pdfobject.min.js"></script>
 </head>
 <body>
@@ -35,61 +34,64 @@
     </select>
   </div>
 
-  <!-- Portfolio Grid (each card corresponds to one work; update content later) -->
+  <!-- Portfolio Grid with dual links for each work -->
   <div class="portfolio-grid" id="workGrid">
-    <!-- Work 1: Character Design (PDF File, cover image + click to open PDF) -->
+    <!-- Work 1: Character Design (PDF File) -->
     <div class="work-card" data-type="pdf" data-date="2024-09">
       <img src="CoverCD.jpg" alt="Alien Secret Action (Character Design) Cover" 
            onclick="openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/raw/main/Character%20Design.pdf')">
       <h3>Alien Secret Action (Character Design)</h3>
-      <p>Based on alien invasion stories, this work includes design sketches of humans and aliens with distinct roles, along with complete design logic and draft drawings (click to view PDF).</p>
+      <p>Based on alien invasion stories, this work includes design sketches of humans and aliens with distinct roles, along with complete design logic and draft drawings. 
+        <a href="javascript:openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/raw/main/Character%20Design.pdf')" class="pdf-link">(click to view PDF)</a>
+      </p>
     </div>
 
-    <!-- Work 2: 3D Modeling (Image Work, click to open full-screen preview) -->
-    <!-- Fixed: Corrected preview type (from 'pdf' to 'image') and URL format -->
+    <!-- Work 2: 3D Modeling (Image Work) -->
     <div class="work-card" data-type="image" data-date="2024-08">
       <img src="Scene displace.jpg" alt="Alien Secret Action (Character Modelling)" 
-           onclick="openWork('image', 'https://github.com/Lijiahong77/Personal-Website/raw/main/Character%20Modelling.pdf')">
+           onclick="openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/raw/main/Character%20Modelling.pdf')">
       <h3>Alien Secret Action (Character Modelling)</h3>
-      <p>Character and scene modeling completed using MAYA; materials created with Substance Painter. UV unwrapping and wireframe images are included for reference.</p>
+      <p>Character and scene modeling completed using MAYA; materials created with Substance Painter. UV unwrapping and wireframe images are included for reference.
+        <a href="javascript:openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/raw/main/Character%20Modelling.pdf')" class="pdf-link">(click to view PDF)</a>
+      </p>
     </div>
 
-    <!-- Work 3: Video Work (click to open video) -->
+    <!-- Work 3: Video Work with both video and PDF links -->
     <div class="work-card" data-type="video" data-date="2024-07">
       <img src="Cover.jpg" alt="Five-Water-Formed Fists (Video Cover)" 
            onclick="openWork('video', 'https://youtu.be/Wjli50PeL3k')">
       <h3>Five-Water-Formed Fists</h3>
-      <p>Animation project created with Blender. Scenes and characters were developed using licensed online model resources, with custom adjustments for style consistency.</p>
+      <p>Animation project created with Blender. Scenes and characters were developed using licensed online model resources, with custom adjustments for style consistency.
+        <a href="javascript:openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/raw/main/Animation.pdf')" class="pdf-link">(click to view PDF)</a>
+      </p>
     </div>
 
     <!-- Work 4: Drawing Practice (Image Work) -->
-    <!-- Updated: Replaced Chinese placeholder text with English -->
     <div class="work-card" data-type="image" data-date="2024-06">
       <img src="https://picsum.photos/400/300?random=8" alt="Drawing Practice Example" 
-           onclick="openWork('image', 'https://picsum.photos/800/600?random=8')">
+           onclick="openWork('pdf', 'https://picsum.photos/800/600?random=8')">
       <h3>Drawing Practices</h3>
-      <p>Collection of sketching and rendering exercises completed during classes and personal practice sessions, focusing on form, light, and texture.</p>
+      <p>Collection of sketching and rendering exercises completed during classes and personal practice sessions, focusing on form, light, and texture.
+        <a href="javascript:openWork('pdf', 'https://picsum.photos/800/600?random=8')" class="pdf-link">(click to view PDF)</a>
+      </p>
     </div>
   </div>
 
-  <!-- Work Preview Modal (hidden by default; shows when work is clicked) -->
+  <!-- Work Preview Modal -->
   <div id="workModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; padding: 50px; text-align: center;">
     <button onclick="closeModal()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 30px; background: transparent; border: none; cursor: pointer;">×</button>
     <div id="modalContent" style="width: 100%; height: 90%;"></div>
   </div>
 
-  <!-- JS for Filtering, Sorting, and Preview -->
   <script>
-    // Filter works by type (all/image/video/pdf)
+    // Filter works by type
     function filterWorks(type) {
       const cards = document.querySelectorAll('.work-card');
       const tags = document.querySelectorAll('.tag');
       
-      // Update tag active state
       tags.forEach(tag => tag.classList.remove('active'));
       document.querySelector(`.tag[onclick="filterWorks('${type}')"]`).classList.add('active');
       
-      // Show/hide works based on type
       cards.forEach(card => {
         if (type === 'all' || card.dataset.type === type) {
           card.style.display = 'block';
@@ -99,45 +101,38 @@
       });
     }
 
-    // Sort works by date (newest/oldest first)
+    // Sort works by date
     function sortWorks() {
       const select = document.getElementById('sortSelect');
       const grid = document.getElementById('workGrid');
       const cards = Array.from(document.querySelectorAll('.work-card'));
       
-      // Sort by data-date (format: 2024-09)
       cards.sort((a, b) => {
         if (select.value === 'newest') {
-          return b.dataset.date.localeCompare(a.dataset.date); // Newest first
+          return b.dataset.date.localeCompare(a.dataset.date);
         } else {
-          return a.dataset.date.localeCompare(b.dataset.date); // Oldest first
+          return a.dataset.date.localeCompare(b.dataset.date);
         }
       });
       
-      // Reposition sorted cards
       cards.forEach(card => grid.appendChild(card));
     }
 
-    // Open work preview (image/video/pdf)
+    // Open work preview
     function openWork(type, url) {
       const modal = document.getElementById('workModal');
       const content = document.getElementById('modalContent');
       
-      // Clear previous content
       content.innerHTML = '';
       
-      // Load content based on type
       if (type === 'image') {
-        // Image preview
         const img = document.createElement('img');
         img.src = url;
         img.style.maxWidth = '100%';
         img.style.maxHeight = '100%';
-        img.style.objectFit = 'contain'; // Preserve aspect ratio
+        img.style.objectFit = 'contain';
         content.appendChild(img);
       } else if (type === 'video') {
-        // Video preview (supports YouTube links or local videos)
-        // Adjust YouTube URL for embedded playback
         const embeddedUrl = url.includes('youtu.be') 
           ? url.replace('youtu.be/', 'youtube.com/embed/') 
           : url;
@@ -151,7 +146,6 @@
         iframe.title = 'Work Video Preview';
         content.appendChild(iframe);
       } else if (type === 'pdf') {
-        // PDF preview (using PDF.js plugin)
         PDFObject.embed(url, '#modalContent', { 
           width: '100%', 
           height: '100%',
@@ -159,7 +153,6 @@
         });
       }
       
-      // Show modal
       modal.style.display = 'block';
     }
 
@@ -168,7 +161,6 @@
       document.getElementById('workModal').style.display = 'none';
     }
 
-    // Close modal when clicking outside the content area
     window.onclick = function(event) {
       const modal = document.getElementById('workModal');
       if (event.target === modal) {
@@ -176,12 +168,27 @@
       }
     }
 
-    // Close modal when pressing ESC key
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
         closeModal();
       }
     });
   </script>
+  
+  <style>
+    /* Style for PDF links in descriptions */
+    .pdf-link {
+      color: #666666;
+      text-decoration: underline;
+      margin-left: 5px;
+      font-weight: 500;
+    }
+    
+    .pdf-link:hover {
+      color: #333333;
+      text-decoration: none;
+    }
+  </style>
 </body>
 </html>
+    
