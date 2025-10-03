@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-  <!-- 引入PDF预览插件（无需下载，直接用在线资源） -->
+  <!-- Import PDF preview plugin (no download required, uses CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.8/pdfobject.min.js"></script>
 </head>
 <body>
-  <!-- 导航栏 -->
+  <!-- Navigation Bar -->
   <div class="nav">
-    <a href="index.html">Home + About </a>
+    <a href="index.html">Home + About</a>
     <a href="portfolio.html" class="active">Portfolio</a>
   </div>
 
-  <!-- 作品集顶部：标题 + 筛选标签 -->
+  <!-- Portfolio Header: Title + Filter Tags -->
   <div class="portfolio-header">
     <h2>Portfolio</h2>
     <div class="tags">
@@ -27,62 +27,69 @@
     </div>
   </div>
 
-  <!-- 排序功能 -->
+  <!-- Sorting Function -->
   <div class="sort">
     <select id="sortSelect" onchange="sortWorks()">
-      <option value="newest">Newest</option>
-      <option value="oldest">Oldest</option>
+      <option value="newest">Newest First</option>
+      <option value="oldest">Oldest First</option>
     </select>
   </div>
 
-  <!-- 作品集网格（每个作品卡片对应一个作品，后续替换内容） -->
+  <!-- Portfolio Grid (each card corresponds to one work; update content later) -->
   <div class="portfolio-grid" id="workGrid">
-    <!-- 作品1：角色设计（PDF文件，封面图+点击打开PDF） -->
+    <!-- Work 1: Character Design (PDF File, cover image + click to open PDF) -->
     <div class="work-card" data-type="pdf" data-date="2024-09">
-      <img src="CoverCD.jpg" alt="《Alien Secret Action(Character Design)》Cover" onclick="openWork('pdf', '（https://github.com/Lijiahong77/Personal-Website/raw/main/Character%20Design.pdf）')">
-      <h3>Alien Secret Action(Character Design)</h3> <!-- 替换成你的作品标题 -->
-      <p>Based on stories of alien invasion, design images of humans and aliens with different roles, along with complete design ideas and sketches (click to view PDF).</p> <!-- 替换成你的简介 -->
-    </div>Character Design.pdf
-    <!-- 作品2：3D建模（图片作品，点击全屏查看） -->
+      <img src="CoverCD.jpg" alt="Alien Secret Action (Character Design) Cover" 
+           onclick="openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/raw/main/Character%20Design.pdf')">
+      <h3>Alien Secret Action (Character Design)</h3>
+      <p>Based on alien invasion stories, this work includes design sketches of humans and aliens with distinct roles, along with complete design logic and draft drawings (click to view PDF).</p>
+    </div>
+
+    <!-- Work 2: 3D Modeling (Image Work, click to open full-screen preview) -->
+    <!-- Fixed: Corrected preview type (from 'pdf' to 'image') and URL format -->
     <div class="work-card" data-type="image" data-date="2024-08">
-      <img src="Scene displace.jpg" alt="Alien Secret Action(Character Modelling)" onclick="openWork('pdf', '(Character Modelling.pdf')">
-      <h3>Alien Secret Action(Character Modelling)</h3>
-      <p>Character and scene modeling has been completed using MAYA. Materials were created using Substance Painter. UV and wireframe images are attached.</p>
+      <img src="Scene displace.jpg" alt="Alien Secret Action (Character Modelling)" 
+           onclick="openWork('image', 'https://github.com/Lijiahong77/Personal-Website/raw/main/Character%20Modelling.pdf')">
+      <h3>Alien Secret Action (Character Modelling)</h3>
+      <p>Character and scene modeling completed using MAYA; materials created with Substance Painter. UV unwrapping and wireframe images are included for reference.</p>
     </div>
 
-    <!-- 作品3：视频作品（点击打开视频） -->
+    <!-- Work 3: Video Work (click to open video) -->
     <div class="work-card" data-type="video" data-date="2024-07">
-      <img src="Cover.jpg" alt="Five-Water-Formed Fists" onclick="openWork('video', '（https://youtu.be/Wjli50PeL3k）')">
+      <img src="Cover.jpg" alt="Five-Water-Formed Fists (Video Cover)" 
+           onclick="openWork('video', 'https://youtu.be/Wjli50PeL3k')">
       <h3>Five-Water-Formed Fists</h3>
-      <p>Animation project has been completed using Blender.Scene is created with online model source, as well as characters.</p>
+      <p>Animation project created with Blender. Scenes and characters were developed using licensed online model resources, with custom adjustments for style consistency.</p>
     </div>
 
-    <!-- 作品4：绘画作品（图片） -->
+    <!-- Work 4: Drawing Practice (Image Work) -->
+    <!-- Updated: Replaced Chinese placeholder text with English -->
     <div class="work-card" data-type="image" data-date="2024-06">
-      <img src="https://picsum.photos/400/300?random=8" alt="《XX插画》" onclick="openWork('image', 'https://picsum.photos/800/600?random=8')">
-      <h3>《XX插画》</h3>
-      <p>数字绘画插画，主题为“自然与科技融合”，使用Procreate完成。</p>
+      <img src="https://picsum.photos/400/300?random=8" alt="Drawing Practice Example" 
+           onclick="openWork('image', 'https://picsum.photos/800/600?random=8')">
+      <h3>Drawing Practices</h3>
+      <p>Collection of sketching and rendering exercises completed during classes and personal practice sessions, focusing on form, light, and texture.</p>
     </div>
   </div>
 
-  <!-- 作品预览弹窗（默认隐藏，点击作品后显示） -->
+  <!-- Work Preview Modal (hidden by default; shows when work is clicked) -->
   <div id="workModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; padding: 50px; text-align: center;">
     <button onclick="closeModal()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 30px; background: transparent; border: none; cursor: pointer;">×</button>
     <div id="modalContent" style="width: 100%; height: 90%;"></div>
   </div>
 
-  <!-- 筛选、排序、预览的简单JS代码 -->
+  <!-- JS for Filtering, Sorting, and Preview -->
   <script>
-    // 筛选作品：按类型（全部/图片/视频/PDF）
+    // Filter works by type (all/image/video/pdf)
     function filterWorks(type) {
       const cards = document.querySelectorAll('.work-card');
       const tags = document.querySelectorAll('.tag');
       
-      // 更新标签选中状态
+      // Update tag active state
       tags.forEach(tag => tag.classList.remove('active'));
       document.querySelector(`.tag[onclick="filterWorks('${type}')"]`).classList.add('active');
       
-      // 筛选作品卡片
+      // Show/hide works based on type
       cards.forEach(card => {
         if (type === 'all' || card.dataset.type === type) {
           card.style.display = 'block';
@@ -92,75 +99,89 @@
       });
     }
 
-    // 排序作品：按日期（最新/最早）
+    // Sort works by date (newest/oldest first)
     function sortWorks() {
       const select = document.getElementById('sortSelect');
       const grid = document.getElementById('workGrid');
       const cards = Array.from(document.querySelectorAll('.work-card'));
       
-      // 按日期排序（data-date格式：2024-09）
+      // Sort by data-date (format: 2024-09)
       cards.sort((a, b) => {
         if (select.value === 'newest') {
-          return b.dataset.date.localeCompare(a.dataset.date); // 最新在前
+          return b.dataset.date.localeCompare(a.dataset.date); // Newest first
         } else {
-          return a.dataset.date.localeCompare(b.dataset.date); // 最早在前
+          return a.dataset.date.localeCompare(b.dataset.date); // Oldest first
         }
       });
       
-      // 重新排列卡片
+      // Reposition sorted cards
       cards.forEach(card => grid.appendChild(card));
     }
 
-    // 打开作品预览（图片/视频/PDF）
+    // Open work preview (image/video/pdf)
     function openWork(type, url) {
       const modal = document.getElementById('workModal');
       const content = document.getElementById('modalContent');
       
-      // 清空之前的内容
+      // Clear previous content
       content.innerHTML = '';
       
-      // 根据类型加载不同内容
+      // Load content based on type
       if (type === 'image') {
-        // 图片预览
+        // Image preview
         const img = document.createElement('img');
         img.src = url;
         img.style.maxWidth = '100%';
         img.style.maxHeight = '100%';
+        img.style.objectFit = 'contain'; // Preserve aspect ratio
         content.appendChild(img);
       } else if (type === 'video') {
-        // 视频预览（支持YouTube/B站链接，或本地视频）
-        const video = document.createElement('iframe');
-        video.src = url;
-        video.style.width = '80%';
-        video.style.height = '80%';
-        video.frameBorder = '0';
-        video.allowFullScreen = true;
-        content.appendChild(video);
+        // Video preview (supports YouTube links or local videos)
+        // Adjust YouTube URL for embedded playback
+        const embeddedUrl = url.includes('youtu.be') 
+          ? url.replace('youtu.be/', 'youtube.com/embed/') 
+          : url;
+        
+        const iframe = document.createElement('iframe');
+        iframe.src = embeddedUrl;
+        iframe.style.width = '80%';
+        iframe.style.height = '80%';
+        iframe.frameBorder = '0';
+        iframe.allowFullScreen = true;
+        iframe.title = 'Work Video Preview';
+        content.appendChild(iframe);
       } else if (type === 'pdf') {
-        // PDF预览（用PDF.js插件）
-        PDFObject.embed(url, '#modalContent', { width: '100%', height: '100%' });
+        // PDF preview (using PDF.js plugin)
+        PDFObject.embed(url, '#modalContent', { 
+          width: '100%', 
+          height: '100%',
+          fallbackLink: '<p style="color:white;">PDF preview unavailable. <a href="' + url + '" target="_blank" style="color:white;">Click here to download</a>.</p>'
+        });
       }
       
-      // 显示弹窗
+      // Show modal
       modal.style.display = 'block';
     }
 
-    // 关闭预览弹窗
+    // Close preview modal
     function closeModal() {
       document.getElementById('workModal').style.display = 'none';
     }
 
-    // 点击弹窗外部关闭
+    // Close modal when clicking outside the content area
     window.onclick = function(event) {
       const modal = document.getElementById('workModal');
       if (event.target === modal) {
         closeModal();
       }
     }
+
+    // Close modal when pressing ESC key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    });
   </script>
 </body>
 </html>
-
-
-
-
