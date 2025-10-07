@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- 修正语言属性为英文 -->
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <!-- Mobile Responsiveness -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Portfolio</title> <!-- 修正拼写错误：Portfolie → Portfolio -->
+  <title>Home - Portfolio</title>
   <!-- Import Stylesheet -->
   <link rel="stylesheet" href="style.css">
-  <!-- Import Icon Library (free, no need for custom icons) -->
+  <!-- Import Icon Library -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-  <!-- Navigation Bar (consistent with portfolio page) -->
+  <!-- Navigation Bar -->
   <div class="nav">
-    <a href="index.html" class="active">Home + About</a> <!-- 统一导航文本：Home - About → Home + About -->
+    <a href="index.html" class="active">Home + About</a>
     <a href="portfolio.html">Portfolio</a>
   </div>
 
   <!-- Top Section: Identity & Professional Positioning -->
   <div class="identity">
     <h1>Li Jiahong</h1>
-    <p>Animator | Specializing in Character Design, 3D Modeling & Animation</p> <!-- 优化表达：Focus on → Specializing in；统一拼写：modelling → Modeling（美式拼写） -->
-    <p>VR Developer | Experienced in Personal VR Game Production</p> <!-- 优化表达：Practice in → Experienced in（更显专业性） -->
+    <p>Animator | Specializing in Character Design, 3D Modeling & Animation</p>
+    <p>VR Developer | Experienced in Personal VR Game Production</p>
     <div class="line"></div>
   </div>
 
@@ -29,49 +29,74 @@
   <div class="middle">
     <!-- Left Column: Personal Introduction -->
     <div class="intro">
-      <p>I am a current student at Beijing Normal University-Hong Kong Baptist University United International College (BNU-HKBU UIC) — corrected abbreviation for accuracy — majoring in Animation & Interactive Media. My GPA is 3.5/4.0, and I rank 5th out of 62 students in my program.</p> <!-- 修正学校缩写：BNBU → BNU-HKBU UIC（官方标准名称）；优化语序：rank is 5/62 → rank 5th out of 62 -->
-      <p>I have developed solid skills and in-depth knowledge in 3D modeling and animation, with hands-on experience across a variety of practical projects.</p> <!-- 补充3D：更明确；优化表达：engaged in a diverse range of practices → hands-on experience across a variety of practical projects -->
-      <p>Additionally, I hold a foundational understanding and practical proficiency in game development and virtual reality (VR) development.</p> <!-- 补充(VR)：首次缩写后标注全称；优化语序：game and virtual reality development → game development and virtual reality (VR) development -->
-      <p>Furthermore, I am actively exploring the applications of Artificial Intelligence (AI) in my field, with the goal of becoming a developer who rides the wave of AI trends.</p> <!-- 优化表达：delving into → exploring；修正单复数：AI trend → AI trends；补充(AI)：标注全称 -->
+      <p>I am a current student at Beijing Normal University-Hong Kong Baptist University United International College (BNU-HKBU UIC) — corrected abbreviation for accuracy — majoring in Animation & Interactive Media. My GPA is 3.5/4.0, and I rank 5th out of 62 students in my program.</p>
+      <p>I have developed solid skills and in-depth knowledge in 3D modeling and animation, with hands-on experience across a variety of practical projects.</p>
+      <p>Additionally, I hold a foundational understanding and practical proficiency in game development and virtual reality (VR) development.</p>
+      <p>Furthermore, I am actively exploring the applications of Artificial Intelligence (AI) in my field, with the goal of becoming a developer who rides the wave of AI trends.</p>
     </div>
 
-    <!-- Right Column: Work Guide (2x2 Grid; update image links with your covers) -->
+    <!-- Right Column: Work Guide (扩展为3x3网格展示更多作品类型) -->
     <div class="work-guide">
-      <!-- Work 1: Character Design (click to jump to Portfolio) -->
+      <!-- 原有作品 -->
       <div class="guide-card" onclick="window.location.href='portfolio.html'">
         <img src="CoverCD.jpg" alt="Character Design Cover">
-        <div class="tip">View Portfolio</div> <!-- 简化表达：View the Portfolio → View Portfolio -->
+        <div class="tip">View Portfolio</div>
         <p>Character Design</p>
       </div>
-      <!-- Work 2: 3D Modeling -->
+      
       <div class="guide-card" onclick="window.location.href='portfolio.html'">
-        <img src="Scene displace.jpg" alt="3D Modeling Cover"> <!-- 修正拼写：modelling → Modeling；统一alt文本 -->
+        <img src="Scene displace.jpg" alt="3D Modeling Cover">
         <div class="tip">View Portfolio</div>
-        <p>3D Modeling</p> <!-- 修正拼写：modelling → Modeling -->
+        <p>3D Modeling</p>
       </div>
-      <!-- Work 3: Drawing Examples -->
+      
       <div class="guide-card" onclick="window.location.href='portfolio.html'">
-        <img src="https://picsum.photos/400/300?random=3" alt="Drawing Examples Cover"> <!-- 修正alt文本：删除中文“绘画作品封面” -->
+        <img src="CoverDC.jpg" alt="Drawing Examples Cover">
         <div class="tip">View Portfolio</div>
         <p>Drawing Examples</p>
       </div>
-      <!-- Work 4: Animation (Video Work) -->
+      
       <div class="guide-card" onclick="window.location.href='portfolio.html'">
-        <img src="Cover.jpg" alt="Animation Cover"> <!-- 修正alt文本：删除中文“视频作品封面”，更精准 -->
+        <img src="Cover.jpg" alt="Animation Cover">
         <div class="tip">View Portfolio</div>
         <p>Animation</p>
+      </div>
+      
+      <!-- 新增作品导航 -->
+      <div class="guide-card" onclick="window.location.href='portfolio.html'">
+        <img src="3d_animation1_cover.jpg" alt="3D Animation Cover">
+        <div class="tip">View Portfolio</div>
+        <p>3D Animation</p>
+      </div>
+      
+      <div class="guide-card" onclick="window.location.href='portfolio.html'">
+        <img src="juice_ad_cover.jpg" alt="Commercial Advertisement">
+        <div class="tip">View Portfolio</div>
+        <p>Commercial Ads</p>
+      </div>
+      
+      <div class="guide-card" onclick="window.location.href='portfolio.html'">
+        <img src="process_work1_cover.jpg" alt="Creative Process">
+        <div class="tip">View Portfolio</div>
+        <p>Process Work</p>
+      </div>
+      
+      <div class="guide-card" onclick="window.location.href='portfolio.html'">
+        <img src="3d_scene_cover.jpg" alt="3D Scene Design">
+        <div class="tip">View Portfolio</div>
+        <p>3D Scene Design</p>
       </div>
     </div>
   </div>
 
-  <!-- Bottom Section: Contact Info + Navigation (repeated for easy bottom access) -->
+  <!-- Bottom Section: Contact Info + Navigation -->
   <div class="contact">
     <!-- Contact Info: Email -->
     <div class="contact-info">
-      <a href="mailto:Lijiahong2025@gmail.com"><i class="fa fa-envelope"></i> Lijiahong2025@gmail.com</a> <!-- 移除多余占位符“（Email）”，确保mailto链接直接生效 -->
+      <a href="mailto:Lijiahong2025@gmail.com"><i class="fa fa-envelope"></i> Lijiahong2025@gmail.com</a>
     </div>
 
-    <!-- Bottom Navigation (consistent with top) -->
+    <!-- Bottom Navigation -->
     <div class="nav">
       <a href="index.html" class="active">Home + About</a>
       <a href="portfolio.html">Portfolio</a>
