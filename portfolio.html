@@ -6,49 +6,13 @@
   <title>Portfolio</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-  <!-- 引入 PDF.js 核心库 -->
+  <!-- 引入 PDF.js 核心库（修复：闭合 script 标签） -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     // 配置 PDF.js 工作器路径
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  </style>
-    /* 新增模态框居中样式 */
-    #workModal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.8);
-      z-index: 100;
-      /* 关键：使用flex布局居中内容 */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px; /* 减小内边距避免内容偏右 */
-      box-sizing: border-box; /* 确保padding不会增加总宽度 */
-    }
-
-    #modalContent {
-      width: 100%;
-      max-width: 1000px; /* 最大宽度限制 */
-      height: 90vh; /* 高度基于视口 */
-      position: relative;
-      overflow: auto; /* 内容超出时可滚动 */
-    }
-
-    /* 下载按钮特殊样式 */
-    #downloadBtn {
-      background-color: #2c3e50;
-    }
-
-    #downloadBtn:hover {
-      background-color: #34495e;
-    }
-
-    /* 其他原有样式保持不变 */
+  </script>
+  <style>
     .pdf-link {
       color: #666666;
       text-decoration: underline;
@@ -60,7 +24,7 @@
       color: #333333;
       text-decoration: none;
     }
-
+    
     .work-card {
       border: 1px solid #eee;
       border-radius: 8px;
@@ -77,6 +41,7 @@
       width: 100%;
       height: 200px;
       object-fit: cover;
+      cursor: pointer; /* 增加鼠标指针提示，提升交互性 */
     }
     
     .work-card h3 {
@@ -98,6 +63,59 @@
       padding: 20px;
       max-width: 1200px;
       margin: 0 auto;
+    }
+    
+    /* 导航栏与筛选栏基础样式（补充，避免依赖外部 style.css 缺失问题） */
+    .nav {
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    
+    .nav a {
+      margin-right: 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 600;
+    }
+    
+    .nav a.active {
+      color: #2c83ff;
+      border-bottom: 2px solid #2c83ff;
+    }
+    
+    .portfolio-header {
+      padding: 0 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .tags .tag {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      background: #eee;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    
+    .tags .tag.active {
+      background: #2c83ff;
+      color: white;
+    }
+    
+    .sort {
+      padding: 0 20px;
+      max-width: 1200px;
+      margin: 0 auto 20px;
+    }
+    
+    #sortSelect {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
     }
   </style>
 </head>
@@ -129,357 +147,312 @@
 
   <!-- Portfolio Grid with dual links for each work -->
   <div class="portfolio-grid" id="workGrid">
-    <!-- Work 1: Character Design (PDF File) -->
+    <!-- Work 1: Character Design (PDF File)（修复：传递 PDF 文件名） -->
     <div class="work-card" data-type="pdf" data-date="2024-09">
       <img src="CoverCD.jpg" alt="Alien Secret Action (Character Design) Cover" 
-           onclick="openWork('pdf', 'Character%20Design.pdf?raw=true')">
+           onclick="openWork('pdf', 'Character%20Design.pdf?raw=true', 'Character Design.pdf')">
       <h3>Alien Secret Action (Character Design)</h3>
       <p>Based on alien invasion stories, this work includes design sketches of humans and aliens with distinct roles, along with complete design logic and draft drawings. 
-        <a href="javascript:openWork('pdf', 'Character%20Design.pdf?raw=true')" class="pdf-link">(click to view PDF)</a>
+        <a href="javascript:openWork('pdf', 'Character%20Design.pdf?raw=true', 'Character Design.pdf')" class="pdf-link">(click to view PDF)</a>
       </p>
     </div>
 
-    <!-- Work 2: 3D Modeling (Image Work) -->
+    <!-- Work 2: 3D Modeling (Image Work)（修复：传递 PDF 文件名） -->
     <div class="work-card" data-type="image" data-date="2024-08">
       <img src="Scene displace.jpg" alt="Alien Secret Action (Character Modelling)" 
-           onclick="openWork('pdf', 'Character%20Modelling.pdf')">
+           onclick="openWork('pdf', 'Character%20Modelling.pdf', 'Character Modelling.pdf')">
       <h3>Alien Secret Action (Character Modelling)</h3>
       <p>Character and scene modeling completed using MAYA; materials created with Substance Painter. UV unwrapping and wireframe images are included for reference.
-        <a href="javascript:openWork('pdf', 'Character%20Modelling.pdf')" class="pdf-link">(click to view PDF)</a>
+        <a href="javascript:openWork('pdf', 'Character%20Modelling.pdf', 'Character Modelling.pdf')" class="pdf-link">(click to view PDF)</a>
       </p>
     </div>
 
-    <!-- Work 3: Video Work with both video and PDF links -->
+    <!-- Work 3: Video Work with both video and PDF links（修复：传递 PDF 文件名） -->
     <div class="work-card" data-type="video" data-date="2024-07">
       <img src="Cover.jpg" alt="Five-Water-Formed Fists (Video Cover)" 
            onclick="openWork('video', 'https://youtu.be/Wjli50PeL3k')">
       <h3>Five-Water-Formed Fists</h3>
       <p>Animation project created with Blender. Scenes and characters were developed using licensed online model resources, with custom adjustments for style consistency.
-        <a href="javascript:openWork('pdf', 'Animation.pdf')" class="pdf-link">(click to view PDF)</a>
+        <a href="javascript:openWork('pdf', 'Animation.pdf', 'Animation.pdf')" class="pdf-link">(click to view PDF)</a>
       </p>
     </div>
 
-    <!-- Work 4: Drawing Practice (Image Work) -->
+    <!-- Work 4: Drawing Practice (Image Work)（修复：补全句子+传递 PDF 文件名） -->
     <div class="work-card" data-type="image" data-date="2024-06">
       <img src="CoverDC.jpg" alt="Drawing Practice Example" 
-           onclick="openWork('pdf', 'Drawing%20Collections.pdf')">
+           onclick="openWork('pdf', 'Drawing%20Collections.pdf', 'Drawing Collections.pdf')">
       <h3>Drawing Collection</h3>
-      <p>This is the collection of my undergraduate period drawing
-        <a href="javascript:openWork('pdf', 'Drawing%20Collections.pdf')" class="pdf-link">(click to view PDF)</a>
+      <p>This is the collection of my undergraduate period drawing works.
+        <a href="javascript:openWork('pdf', 'Drawing%20Collections.pdf', 'Drawing Collections.pdf')" class="pdf-link">(click to view PDF)</a>
       </p>
     </div>
 
-    <!-- 新增作品 -->
+    <!-- 新增作品 1：3D Animation Pratice（修复：传递 PDF 文件名，补充完整描述） -->
     <div class="work-card" data-type="video" data-date="2024-10">
       <img src="BallCover.png" alt="3D Animation: Character Movement" 
            onclick="openWork('video', 'https://youtu.be/LAZtW_CJq5k')">
-      <h3>3D Animation Pratice: Ball Instrumentalist</h3>
-      <p>A detailed animation study focusing on balls' movement and weight distribution using Blender. Coursework
+      <h3>3D Animation Practice: Ball Instrumentalist</h3>
+      <p>A detailed animation study focusing on balls' movement and weight distribution using Blender. (Coursework)
       </p>
     </div>
 
+    <!-- 新增作品 2：Physics Simulation（补充完整描述） -->
     <div class="work-card" data-type="video" data-date="2024-09">
       <img src="FFDCover.png" alt="3D Animation: Environmental Interaction" 
            onclick="openWork('video', 'https://youtu.be/7hV1RhbJwKM')">
       <h3>3D Animation Practice: Physics Simulation</h3>
-      <p>Homage to childhood films: Delicious food falling from the sky. Coursework
+      <p>Homage to childhood films: an animation of delicious food falling from the sky. (Coursework)
       </p>
     </div>
 
+    <!-- 新增作品 3：Product Design Collection（修复：传递 PDF 文件名） -->
     <div class="work-card" data-type="pdf" data-date="2024-08">
       <img src="ModelingCover.jpg" alt="3D Modeling: Product Design" 
-           onclick="openWork('pdf', '3D%20Modelling.pdf')">
+           onclick="openWork('pdf', '3D%20Modelling.pdf', '3D Modeling - Product Design Collection.pdf')">
       <h3>3D Modeling: Product Design Collection</h3>
       <p>Detailed 3D models of consumer products with focus on surface details, material properties and manufacturing considerations.
-        <a href="javascript:openWork('pdf', '3D%20Modelling.pdf')" class="pdf-link">(click to view PDF)</a>
+        <a href="javascript:openWork('pdf', '3D%20Modelling.pdf', '3D Modeling - Product Design Collection.pdf')" class="pdf-link">(click to view PDF)</a>
       </p>
     </div>
 
+    <!-- 新增作品 4：Cold and Warm（修复：闭合 p 标签） -->
     <div class="work-card" data-type="video" data-date="2024-06">
       <img src="Cold&WarmCover.png" alt="Creative Process Documentation" 
            onclick="openWork('video', 'https://youtu.be/4l6TSA0lmDM')">
       <h3>Cold and Warm</h3>
-      <p>Interactive Media with the theme of "Cold and Warm", made with Processing
+      <p>Interactive Media with the theme of "Cold and Warm", made with Processing.
+      </p>
     </div>
 
+    <!-- 新增作品 5：Music Visualization（修复：拼写错误+补充完整描述） -->
     <div class="work-card" data-type="video" data-date="2024-05">
       <img src="MoonCover.png" alt="Animation Pipeline Process" 
            onclick="openWork('video', 'https://youtu.be/DayjwNZdMZk')">
       <h3>Music Visualization</h3>
-      <p>usic Visualization for the song Moon
+      <p>Music Visualization created for the song "Moon".
+      </p>
     </div>
 
+    <!-- 新增作品 6：3D Scene Design（修复：传递 PDF 文件名） -->
     <div class="work-card" data-type="video" data-date="2024-04">
       <img src="KRCover.png" alt="3D Scene Design Presentation" 
            onclick="openWork('video', 'https://youtu.be/Rr8d42EB6CU')">
       <h3>3D Scene Design (Coursework)</h3>
-      <p>Scene Design is made with prefab models. Two of them are practices. The video is a Kinetic Rush example from the 3D Community Challenge
-        <a href="javascript:openWork('pdf', 'Scene%20Design.pdf')" class="pdf-link">(click to view PDF)</a>
+      <p>Scene Design made with prefab models. Two of them are practice works. The video is a Kinetic Rush example from the 3D Community Challenge.
+        <a href="javascript:openWork('pdf', 'Scene%20Design.pdf', '3D Scene Design.pdf')" class="pdf-link">(click to view PDF)</a>
       </p>
     </div>
   </div>
 
-  <!-- Work Preview Modal -->
+  <!-- Work Preview Modal（修复：删除冗余 pdfControls，保留唯一控件） -->
   <div id="workModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; padding: 50px; text-align: center; overflow: auto;">
     <button onclick="closeModal()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 30px; background: transparent; border: none; cursor: pointer;">×</button>
     <div id="modalContent" style="width: 100%; max-width: 1000px; margin: 0 auto; padding: 20px;"></div>
-    <!-- PDF 导航控制 -->
-    <div id="pdfControls" style="margin-top: 20px; display: none;">
-      <button onclick="prevPage()" style="margin-right: 10px; padding: 8px 16px; cursor: pointer;">Previous Page</button>
-      <span id="pageNum" style="color: white; margin: 0 10px;"></span>
-      <button onclick="nextPage()" style="margin-left: 10px; padding: 8px 16px; cursor: pointer;">Next Page</button>
+    
+    <!-- PDF 导航控制（唯一保留，统一样式） -->
+    <div id="pdfControls" style="margin-top: 20px; display: none; gap: 15px; justify-content: center; align-items: center;">
+      <button onclick="prevPage()" style="padding: 8px 16px; cursor: pointer; border: none; border-radius: 4px; background: #fff; color: #333;">
+        <i class="fa fa-chevron-left"></i> Previous Page
+      </button>
+      <span id="pageNum" style="color: white; font-size: 1rem;"></span>
+      <button onclick="nextPage()" style="padding: 8px 16px; cursor: pointer; border: none; border-radius: 4px; background: #fff; color: #333;">
+        Next Page <i class="fa fa-chevron-right"></i>
+      </button>
+      <button id="downloadBtn" onclick="downloadPdf()" style="padding: 8px 16px; cursor: pointer; border: none; border-radius: 4px; background: #2c83ff; color: #fff;">
+        <i class="fa fa-download"></i> Download PDF
+      </button>
     </div>
   </div>
- <!-- PDF 导航控制（新增下载按钮） -->
-    <div id="pdfControls">
-      <button onclick="prevPage()">&lt; Previous Page</button>
-      <span id="pageNum"></span>
-      <button onclick="nextPage()">Next Page &gt;</button>
-      <button id="downloadBtn" onclick="downloadPdf()"><i class="fa fa-download"></i> Download PDF</button>
-    </div>
-<script>
-  let pdfDoc = null;
-  let currentPage = 1;
-  let totalPages = 0;
-  let currentPdfUrl = '';  // 存储当前PDF的URL
-  let currentPdfName = ''; // 存储当前PDF的文件名
 
-  // 筛选作品
-  function filterWorks(type) {
-    const cards = document.querySelectorAll('.work-card');
-    const tags = document.querySelectorAll('.tag');
-    
-    tags.forEach(tag => tag.classList.remove('active'));
-    document.querySelector(`.tag[onclick="filterWorks('${type}')"]`).classList.add('active');
-    
-    cards.forEach(card => {
-      card.style.display = type === 'all' || card.dataset.type === type ? 'block' : 'none';
-    });
-  }
+  <script>
+    let pdfDoc = null;
+    let currentPage = 1;
+    let totalPages = 0;
+    let currentPdfUrl = '';  // 存储当前PDF的URL
+    let currentPdfName = ''; // 存储当前PDF的文件名
 
-  // 排序作品
-  function sortWorks() {
-    const select = document.getElementById('sortSelect');
-    const grid = document.getElementById('workGrid');
-    const cards = Array.from(document.querySelectorAll('.work-card'));
-    
-    cards.sort((a, b) => {
-      return select.value === 'newest' 
-        ? b.dataset.date.localeCompare(a.dataset.date)
-        : a.dataset.date.localeCompare(b.dataset.date);
-    });
-    
-    cards.forEach(card => grid.appendChild(card));
-  }
-
-  // 打开作品预览
-  function openWork(type, url, fileName = 'document.pdf') {
-    const modal = document.getElementById('workModal');
-    const content = document.getElementById('modalContent');
-    const pdfControls = document.getElementById('pdfControls');
-    
-    // 重置PDF状态
-    pdfDoc = null;
-    currentPage = 1;
-    totalPages = 0;
-    pdfControls.style.display = 'none';
-    content.innerHTML = '';
-    
-    if (type === 'image') {
-      const img = document.createElement('img');
-      img.src = url;
-      img.style.maxWidth = '100%';
-      img.style.maxHeight = '90vh';
-      img.style.objectFit = 'contain';
-      content.appendChild(img);
-    } else if (type === 'video') {
-      const embeddedUrl = url.includes('youtu.be') 
-        ? url.replace('youtu.be/', 'youtube.com/embed/') 
-        : url;
+    // 筛选作品
+    function filterWorks(type) {
+      const cards = document.querySelectorAll('.work-card');
+      const tags = document.querySelectorAll('.tag');
       
-      const iframe = document.createElement('iframe');
-      iframe.src = embeddedUrl;
-      iframe.style.width = '80%';
-      iframe.style.height = '80vh';
-      iframe.frameBorder = '0';
-      iframe.allowFullScreen = true;
-      iframe.title = 'Work Video Preview';
-      content.appendChild(iframe);
-    } else if (type === 'pdf') {
-      // 使用PDF.js加载PDF
-      currentPdfUrl = url;
-      currentPdfName = fileName;
-      pdfControls.style.display = 'flex';
-      pdfControls.style.justifyContent = 'center';
-      pdfControls.style.alignItems = 'center';
+      tags.forEach(tag => tag.classList.remove('active'));
+      document.querySelector(`.tag[onclick="filterWorks('${type}')"]`).classList.add('active');
       
-      // 显示加载状态
-      content.innerHTML = '<div style="color: white; font-size: 1.2rem;">Loading PDF...</div>';
-      
-      // 加载PDF文档
-      pdfjsLib.getDocument(url).promise.then(doc => {
-        pdfDoc = doc;
-        totalPages = doc.numPages;
-        document.getElementById('pageNum').textContent = `Page ${currentPage} of ${totalPages}`;
-        renderPage(currentPage);
-      }).catch(error => {
-        content.innerHTML = `
-          <div style="color: white; font-size: 1.2rem;">Failed to load PDF</div>
-          <p style="color: white; margin-top: 10px;">Error: ${error.message}</p>
-          <a href="${url}" target="_blank" style="color: #4da6ff; margin-top: 10px; display: inline-block;">Download PDF instead</a>
-        `;
-        pdfControls.style.display = 'none';
+      cards.forEach(card => {
+        card.style.display = type === 'all' || card.dataset.type === type ? 'block' : 'none';
       });
     }
-    
-    modal.style.display = 'block';
-  }
 
-  // 渲染PDF页面
-  function renderPage(num) {
-    pdfDoc.getPage(num).then(page => {
+    // 排序作品
+    function sortWorks() {
+      const select = document.getElementById('sortSelect');
+      const grid = document.getElementById('workGrid');
+      const cards = Array.from(document.querySelectorAll('.work-card'));
+      
+      // 按日期排序（新→旧 或 旧→新）
+      cards.sort((a, b) => {
+        return select.value === 'newest' 
+          ? b.dataset.date.localeCompare(a.dataset.date)
+          : a.dataset.date.localeCompare(b.dataset.date);
+      });
+      
+      // 重新渲染排序后的卡片
+      cards.forEach(card => grid.appendChild(card));
+    }
+
+    // 打开作品预览（修复：接收 fileName 参数）
+    function openWork(type, url, fileName = 'document.pdf') {
+      const modal = document.getElementById('workModal');
       const content = document.getElementById('modalContent');
-      const viewport = page.getViewport({ scale: 1.5 });
+      const pdfControls = document.getElementById('pdfControls');
       
-      // 创建canvas元素
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-      
-      // 清空内容并添加canvas
+      // 重置PDF状态
+      pdfDoc = null;
+      currentPage = 1;
+      totalPages = 0;
+      pdfControls.style.display = 'none';
       content.innerHTML = '';
-      content.appendChild(canvas);
+
+      if (type === 'image') {
+        const img = document.createElement('img');
+        img.src = url;
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '90vh';
+        img.style.objectFit = 'contain';
+        content.appendChild(img);
+
+      } else if (type === 'video') {
+        // 转换 YouTube 链接为嵌入式链接
+        const embeddedUrl = url.includes('youtu.be') 
+          ? url.replace('youtu.be/', 'youtube.com/embed/') 
+          : url;
+        
+        const iframe = document.createElement('iframe');
+        iframe.src = embeddedUrl;
+        iframe.style.width = '80%';
+        iframe.style.height = '80vh';
+        iframe.frameBorder = '0';
+        iframe.allowFullScreen = true;
+        iframe.title = 'Work Video Preview';
+        content.appendChild(iframe);
+
+      } else if (type === 'pdf') {
+        // 加载 PDF（修复：存储当前 PDF 文件名）
+        currentPdfUrl = url;
+        currentPdfName = fileName;
+        pdfControls.style.display = 'flex';
+        
+        // 显示加载状态
+        content.innerHTML = '<div style="color: white; font-size: 1.2rem;">Loading PDF...</div>';
+        
+        // 加载 PDF 文档
+        pdfjsLib.getDocument(url).promise.then(doc => {
+          pdfDoc = doc;
+          totalPages = doc.numPages;
+          document.getElementById('pageNum').textContent = `Page ${currentPage} of ${totalPages}`;
+          renderPage(currentPage);
+        }).catch(error => {
+          content.innerHTML = `
+            <div style="color: white; font-size: 1.2rem;">Failed to load PDF</div>
+            <p style="color: white; margin-top: 10px;">Error: ${error.message}</p>
+            <a href="${url}" target="_blank" style="color: #4da6ff; margin-top: 10px; display: inline-block;">Download PDF instead</a>
+          `;
+          pdfControls.style.display = 'none';
+        });
+      }
       
-      // 渲染页面
-      const renderContext = {
-        canvasContext: context,
-        viewport: viewport
-      };
-      
-      page.render(renderContext).promise.then(() => {
-        currentPage = num;
-        document.getElementById('pageNum').textContent = `Page ${currentPage} of ${totalPages}`;
+      modal.style.display = 'block';
+    }
+
+    // 渲染PDF页面
+    function renderPage(num) {
+      pdfDoc.getPage(num).then(page => {
+        const content = document.getElementById('modalContent');
+        const viewport = page.getViewport({ scale: 1.5 });
+        
+        // 创建canvas元素
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        
+        // 清空内容并添加canvas
+        content.innerHTML = '';
+        content.appendChild(canvas);
+        
+        // 渲染页面
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        
+        page.render(renderContext).promise.then(() => {
+          currentPage = num;
+          document.getElementById('pageNum').textContent = `Page ${currentPage} of ${totalPages}`;
+        });
       });
-    });
-  }
-// 【新增】PDF下载功能
-  function downloadPdf() {
-    if (currentPdfUrl) {
-      // 创建隐藏的下载链接
-      const downloadLink = document.createElement('a');
-      downloadLink.href = currentPdfUrl;
-      // 设置下载文件名
-      downloadLink.download = currentPdfName;
-      // 模拟点击下载
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      // 移除临时链接
-      document.body.removeChild(downloadLink);
     }
-  }
-  // 上一页
-  function prevPage() {
-    if (pdfDoc && currentPage > 1) {
-      renderPage(currentPage - 1);
-    }
-  }
 
-  // 下一页
-  function nextPage() {
-    if (pdfDoc && currentPage < totalPages) {
-      renderPage(currentPage + 1);
+    // PDF下载功能
+    function downloadPdf() {
+      if (currentPdfUrl) {
+        // 创建隐藏的下载链接
+        const downloadLink = document.createElement('a');
+        downloadLink.href = currentPdfUrl;
+        downloadLink.download = currentPdfName; // 使用自定义文件名
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
     }
-  }
 
-  // 关闭弹窗
-  function closeModal() {
-    const modal = document.getElementById('workModal');
-    const content = document.getElementById('modalContent');
-    const videoIframe = content.querySelector('iframe');
-     // 重置PDF信息
-    currentPdfUrl = '';
-    currentPdfName = '';
-    if (videoIframe) {
-      videoIframe.src = '';
+    // 上一页
+    function prevPage() {
+      if (pdfDoc && currentPage > 1) {
+        renderPage(currentPage - 1);
+      }
     }
-    
-    modal.style.display = 'none';
-  }
 
-  // 点击弹窗外部关闭
-  window.onclick = function(event) {
-    const modal = document.getElementById('workModal');
-    if (event.target === modal) {
-      closeModal();
+    // 下一页
+    function nextPage() {
+      if (pdfDoc && currentPage < totalPages) {
+        renderPage(currentPage + 1);
+      }
     }
-  }
 
-  // 按ESC键关闭弹窗
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-      closeModal();
-    }
-  });
-</script>
+    // 关闭弹窗
+    function closeModal() {
+      const modal = document.getElementById('workModal');
+      const content = document.getElementById('modalContent');
+      const videoIframe = content.querySelector('iframe');
       
-  <style>
-    .pdf-link {
-      color: #666666;
-      text-decoration: underline;
-      margin-left: 5px;
-      font-weight: 500;
-    }
-    
-    .pdf-link:hover {
-      color: #333333;
-      text-decoration: none;
+      // 重置PDF信息
+      currentPdfUrl = '';
+      currentPdfName = '';
+      
+      // 停止视频播放（避免关闭后仍有声音）
+      if (videoIframe) {
+        videoIframe.src = '';
+      }
+      
+      modal.style.display = 'none';
     }
 
-    .work-card {
-      border: 1px solid #eee;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: transform 0.3s ease;
+    // 点击弹窗外部关闭
+    window.onclick = function(event) {
+      const modal = document.getElementById('workModal');
+      if (event.target === modal) {
+        closeModal();
+      }
     }
-    
-    .work-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    
-    .work-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    
-    .work-card h3 {
-      padding: 15px;
-      margin: 0;
-      font-size: 1.2rem;
-    }
-    
-    .work-card p {
-      padding: 0 15px 15px;
-      margin: 0;
-      color: #666;
-    }
-    
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-  </style>
+
+    // 按ESC键关闭弹窗
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-
-
