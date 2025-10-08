@@ -39,6 +39,15 @@
       overflow: auto; /* 内容超出时可滚动 */
     }
 
+    /* 下载按钮特殊样式 */
+    #downloadBtn {
+      background-color: #2c3e50;
+    }
+
+    #downloadBtn:hover {
+      background-color: #34495e;
+    }
+
     /* 其他原有样式保持不变 */
     .pdf-link {
       color: #666666;
@@ -219,11 +228,19 @@
       <button onclick="nextPage()" style="margin-left: 10px; padding: 8px 16px; cursor: pointer;">Next Page</button>
     </div>
   </div>
-
+ <!-- PDF 导航控制（新增下载按钮） -->
+    <div id="pdfControls">
+      <button onclick="prevPage()">&lt; Previous Page</button>
+      <span id="pageNum"></span>
+      <button onclick="nextPage()">Next Page &gt;</button>
+      <button id="downloadBtn" onclick="downloadPdf()"><i class="fa fa-download"></i> Download PDF</button>
+    </div>
 <script>
   let pdfDoc = null;
   let currentPage = 1;
   let totalPages = 0;
+  let currentPdfUrl = '';  // 存储当前PDF的URL
+  let currentPdfName = ''; // 存储当前PDF的文件名
 
   // 筛选作品
   function filterWorks(type) {
@@ -254,7 +271,7 @@
   }
 
   // 打开作品预览
-  function openWork(type, url) {
+  function openWork(type, url, fileName = 'document.pdf') {
     const modal = document.getElementById('workModal');
     const content = document.getElementById('modalContent');
     const pdfControls = document.getElementById('pdfControls');
@@ -288,6 +305,8 @@
       content.appendChild(iframe);
     } else if (type === 'pdf') {
       // 使用PDF.js加载PDF
+      currentPdfUrl = url;
+      currentPdfName = fileName;
       pdfControls.style.display = 'flex';
       pdfControls.style.justifyContent = 'center';
       pdfControls.style.alignItems = 'center';
@@ -342,7 +361,21 @@
       });
     });
   }
-
+// 【新增】PDF下载功能
+  function downloadPdf() {
+    if (currentPdfUrl) {
+      // 创建隐藏的下载链接
+      const downloadLink = document.createElement('a');
+      downloadLink.href = currentPdfUrl;
+      // 设置下载文件名
+      downloadLink.download = currentPdfName;
+      // 模拟点击下载
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      // 移除临时链接
+      document.body.removeChild(downloadLink);
+    }
+  }
   // 上一页
   function prevPage() {
     if (pdfDoc && currentPage > 1) {
@@ -362,7 +395,9 @@
     const modal = document.getElementById('workModal');
     const content = document.getElementById('modalContent');
     const videoIframe = content.querySelector('iframe');
-    
+     // 重置PDF信息
+    currentPdfUrl = '';
+    currentPdfName = '';
     if (videoIframe) {
       videoIframe.src = '';
     }
@@ -440,6 +475,7 @@
   </style>
 </body>
 </html>
+
 
 
 
