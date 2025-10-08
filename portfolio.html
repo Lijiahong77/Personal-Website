@@ -6,7 +6,12 @@
   <title>Portfolio</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.8/pdfobject.min.js"></script>
+  <!-- 引入 PDF.js 核心库 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    // 配置 PDF.js 工作器路径
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  </script>
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -36,14 +41,13 @@
 
   <!-- Portfolio Grid with dual links for each work -->
   <div class="portfolio-grid" id="workGrid">
-    <!-- 原有作品保持不变 -->
     <!-- Work 1: Character Design (PDF File) -->
     <div class="work-card" data-type="pdf" data-date="2024-09">
       <img src="CoverCD.jpg" alt="Alien Secret Action (Character Design) Cover" 
-           onclick="openWork('pdf', 'https://mozilla.github.io/pdf.js/web/viewer.html?file=https://github.com/Lijiahong77/Personal-Website/blob/main/Character%20Design.pdf')">
+           onclick="openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/blob/main/Character%20Design.pdf?raw=true')">
       <h3>Alien Secret Action (Character Design)</h3>
       <p>Based on alien invasion stories, this work includes design sketches of humans and aliens with distinct roles, along with complete design logic and draft drawings. 
-        <a href="javascript:openWork('pdf', 'https://mozilla.github.io/pdf.js/web/viewer.html?file=Character Design.pdf')" class="pdf-link">(click to view PDF)</a>
+        <a href="javascript:openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/blob/main/Character%20Design.pdf?raw=true')" class="pdf-link">(click to view PDF)</a>
       </p>
     </div>
 
@@ -78,7 +82,6 @@
     </div>
 
     <!-- 新增作品 -->
-    <!-- 3D动画1 (视频) -->
     <div class="work-card" data-type="video" data-date="2024-10">
       <img src="BallCover.png" alt="3D Animation: Character Movement" 
            onclick="openWork('video', 'https://youtu.be/LAZtW_CJq5k')">
@@ -87,7 +90,6 @@
       </p>
     </div>
 
-    <!-- 3D动画2 (视频) -->
     <div class="work-card" data-type="video" data-date="2024-09">
       <img src="FFDCover.png" alt="3D Animation: Environmental Interaction" 
            onclick="openWork('video', 'https://youtu.be/7hV1RhbJwKM')">
@@ -96,7 +98,6 @@
       </p>
     </div>
 
-    <!-- 3D建模 (PDF) -->
     <div class="work-card" data-type="pdf" data-date="2024-08">
       <img src="3d_modeling_new_cover.jpg" alt="3D Modeling: Product Design" 
            onclick="openWork('pdf', 'https://github.com/Lijiahong77/Personal-Website/raw/main/3D_Modeling_Product.pdf')">
@@ -106,21 +107,18 @@
       </p>
     </div>
 
-    <!-- Process Work 1 (视频) -->
     <div class="work-card" data-type="video" data-date="2024-06">
       <img src="Cold&WarmCover.png" alt="Creative Process Documentation" 
            onclick="openWork('video', 'https://youtu.be/4l6TSA0lmDM')">
       <h3>Interactive Media with the theme of "Cold and Warm", made with Processing</h3>
     </div>
 
-    <!-- Process Work 2 (视频) -->
     <div class="work-card" data-type="video" data-date="2024-05">
       <img src="MoonCover.png" alt="Animation Pipeline Process" 
            onclick="openWork('video', 'https://youtu.be/DayjwNZdMZk')">
       <h3>Animation Pipeline: Production Workflow</h3>
     </div>
 
-    <!-- 3D Scene Design (视频) -->
     <div class="work-card" data-type="video" data-date="2024-04">
       <img src="KRCover.png" alt="3D Scene Design Presentation" 
            onclick="openWork('video', 'https://youtu.be/Rr8d42EB6CU')">
@@ -132,14 +130,23 @@
   </div>
 
   <!-- Work Preview Modal -->
-  <div id="workModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; padding: 50px; text-align: center;">
+  <div id="workModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; padding: 50px; text-align: center; overflow: auto;">
     <button onclick="closeModal()" style="position: absolute; top: 20px; right: 30px; color: white; font-size: 30px; background: transparent; border: none; cursor: pointer;">×</button>
-    <div id="modalContent" style="width: 100%; height: 90%;"></div>
+    <div id="modalContent" style="width: 100%; max-width: 1000px; margin: 0 auto; padding: 20px;"></div>
+    <!-- PDF 导航控制 -->
+    <div id="pdfControls" style="margin-top: 20px; display: none;">
+      <button onclick="prevPage()" style="margin-right: 10px; padding: 8px 16px; cursor: pointer;">Previous Page</button>
+      <span id="pageNum" style="color: white; margin: 0 10px;"></span>
+      <button onclick="nextPage()" style="margin-left: 10px; padding: 8px 16px; cursor: pointer;">Next Page</button>
+    </div>
   </div>
 
- <!-- 替换原有的<script>标签内容 -->
 <script>
-  // 筛选作品（保持不变）
+  let pdfDoc = null;
+  let currentPage = 1;
+  let totalPages = 0;
+
+  // 筛选作品
   function filterWorks(type) {
     const cards = document.querySelectorAll('.work-card');
     const tags = document.querySelectorAll('.tag');
@@ -148,47 +155,46 @@
     document.querySelector(`.tag[onclick="filterWorks('${type}')"]`).classList.add('active');
     
     cards.forEach(card => {
-      if (type === 'all' || card.dataset.type === type) {
-        card.style.display = 'block';
-      } else {
-        card.style.display = 'none';
-      }
+      card.style.display = type === 'all' || card.dataset.type === type ? 'block' : 'none';
     });
   }
 
-  // 排序作品（保持不变）
+  // 排序作品
   function sortWorks() {
     const select = document.getElementById('sortSelect');
     const grid = document.getElementById('workGrid');
     const cards = Array.from(document.querySelectorAll('.work-card'));
     
     cards.sort((a, b) => {
-      if (select.value === 'newest') {
-        return b.dataset.date.localeCompare(a.dataset.date);
-      } else {
-        return a.dataset.date.localeCompare(b.dataset.date);
-      }
+      return select.value === 'newest' 
+        ? b.dataset.date.localeCompare(a.dataset.date)
+        : a.dataset.date.localeCompare(b.dataset.date);
     });
     
     cards.forEach(card => grid.appendChild(card));
   }
 
-  // 打开作品预览（保持不变）
+  // 打开作品预览
   function openWork(type, url) {
     const modal = document.getElementById('workModal');
     const content = document.getElementById('modalContent');
+    const pdfControls = document.getElementById('pdfControls');
     
+    // 重置PDF状态
+    pdfDoc = null;
+    currentPage = 1;
+    totalPages = 0;
+    pdfControls.style.display = 'none';
     content.innerHTML = '';
     
     if (type === 'image') {
       const img = document.createElement('img');
       img.src = url;
       img.style.maxWidth = '100%';
-      img.style.maxHeight = '100%';
+      img.style.maxHeight = '90vh';
       img.style.objectFit = 'contain';
       content.appendChild(img);
     } else if (type === 'video') {
-      // 视频播放部分保持不变
       const embeddedUrl = url.includes('youtu.be') 
         ? url.replace('youtu.be/', 'youtube.com/embed/') 
         : url;
@@ -196,39 +202,96 @@
       const iframe = document.createElement('iframe');
       iframe.src = embeddedUrl;
       iframe.style.width = '80%';
-      iframe.style.height = '80%';
+      iframe.style.height = '80vh';
       iframe.frameBorder = '0';
       iframe.allowFullScreen = true;
       iframe.title = 'Work Video Preview';
       content.appendChild(iframe);
     } else if (type === 'pdf') {
-      PDFObject.embed(url, '#modalContent', { 
-        width: '100%', 
-        height: '100%',
-        fallbackLink: '<p style="color:white;">PDF preview unavailable. <a href="' + url + '" target="_blank" style="color:white;">Click here to download</a>.</p>'
+      // 使用PDF.js加载PDF
+      pdfControls.style.display = 'flex';
+      pdfControls.style.justifyContent = 'center';
+      pdfControls.style.alignItems = 'center';
+      
+      // 显示加载状态
+      content.innerHTML = '<div style="color: white; font-size: 1.2rem;">Loading PDF...</div>';
+      
+      // 加载PDF文档
+      pdfjsLib.getDocument(url).promise.then(doc => {
+        pdfDoc = doc;
+        totalPages = doc.numPages;
+        document.getElementById('pageNum').textContent = `Page ${currentPage} of ${totalPages}`;
+        renderPage(currentPage);
+      }).catch(error => {
+        content.innerHTML = `
+          <div style="color: white; font-size: 1.2rem;">Failed to load PDF</div>
+          <p style="color: white; margin-top: 10px;">Error: ${error.message}</p>
+          <a href="${url}" target="_blank" style="color: #4da6ff; margin-top: 10px; display: inline-block;">Download PDF instead</a>
+        `;
+        pdfControls.style.display = 'none';
       });
     }
     
     modal.style.display = 'block';
   }
 
-  // 【关键修改】关闭弹窗时停止视频播放
+  // 渲染PDF页面
+  function renderPage(num) {
+    pdfDoc.getPage(num).then(page => {
+      const content = document.getElementById('modalContent');
+      const viewport = page.getViewport({ scale: 1.5 });
+      
+      // 创建canvas元素
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      
+      // 清空内容并添加canvas
+      content.innerHTML = '';
+      content.appendChild(canvas);
+      
+      // 渲染页面
+      const renderContext = {
+        canvasContext: context,
+        viewport: viewport
+      };
+      
+      page.render(renderContext).promise.then(() => {
+        currentPage = num;
+        document.getElementById('pageNum').textContent = `Page ${currentPage} of ${totalPages}`;
+      });
+    });
+  }
+
+  // 上一页
+  function prevPage() {
+    if (pdfDoc && currentPage > 1) {
+      renderPage(currentPage - 1);
+    }
+  }
+
+  // 下一页
+  function nextPage() {
+    if (pdfDoc && currentPage < totalPages) {
+      renderPage(currentPage + 1);
+    }
+  }
+
+  // 关闭弹窗
   function closeModal() {
     const modal = document.getElementById('workModal');
     const content = document.getElementById('modalContent');
-    
-    // 查找弹窗中的视频iframe并停止播放
     const videoIframe = content.querySelector('iframe');
+    
     if (videoIframe) {
-      // 重置iframe的src，强制停止视频
       videoIframe.src = '';
     }
     
-    // 隐藏弹窗
     modal.style.display = 'none';
   }
 
-  // 点击弹窗外部关闭（保持不变）
+  // 点击弹窗外部关闭
   window.onclick = function(event) {
     const modal = document.getElementById('workModal');
     if (event.target === modal) {
@@ -236,7 +299,7 @@
     }
   }
 
-  // 按ESC键关闭弹窗（保持不变）
+  // 按ESC键关闭弹窗
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
       closeModal();
@@ -245,7 +308,6 @@
 </script>
       
   <style>
-    /* Style for PDF links in descriptions */
     .pdf-link {
       color: #666666;
       text-decoration: underline;
@@ -257,9 +319,45 @@
       color: #333333;
       text-decoration: none;
     }
+
+    .work-card {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .work-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .work-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .work-card h3 {
+      padding: 15px;
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    
+    .work-card p {
+      padding: 0 15px 15px;
+      margin: 0;
+      color: #666;
+    }
+    
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
   </style>
 </body>
 </html>
-
-
-
